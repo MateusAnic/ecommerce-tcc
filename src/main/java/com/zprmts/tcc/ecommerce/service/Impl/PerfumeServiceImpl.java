@@ -37,9 +37,6 @@ public class PerfumeServiceImpl implements PerfumeService {
 
     @Override
     public PerfumeResponse create(PerfumeRequest perfumeRequest) {
-        if (perfumeRequest.getFoto().equals("data:image/jpeg;base64,null")) {
-            perfumeRequest.setFoto(null);
-        }
         Perfume perfume = objectMapper.convertValue(perfumeRequest, Perfume.class);
         save(perfume);
         PerfumeResponse perfumeResponse = objectMapper.convertValue(perfume, PerfumeResponse.class);
@@ -49,7 +46,7 @@ public class PerfumeServiceImpl implements PerfumeService {
     @Override
     public PerfumeResponse update(Long idPerfume, PerfumeUpdate perfumeUpdate) throws RegraDeNegocioException {
         Perfume perfume = getById(idPerfume);
-        if (perfumeUpdate.getFoto().equals("data:image/jpeg;base64,null")) {
+        if (perfumeUpdate.getFoto().startsWith("data:image/jpeg;base64,")) {
             perfumeUpdate.setFoto(null);
         }
         Perfume perfumeUpdateGetFoto = objectMapper.convertValue(perfumeUpdate, Perfume.class);
